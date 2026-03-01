@@ -25,6 +25,26 @@ cp -r /tmp/sdf-skills/skills/sdf-setup ~/.claude/skills/sdf-setup
 rm -rf /tmp/sdf-skills
 ```
 
+### Uninstallation
+
+To remove the specific skills globally:
+
+```bash
+npx skills remove --global sdf sdf-setup
+```
+
+Or interactively (shows a list for you to select which ones to remove):
+
+```bash
+npx skills remove --global
+```
+
+If you want to check what is installed first:
+
+```bash
+npx skills list --global
+```
+
 ## Skills
 
 ### `sdf-setup`
