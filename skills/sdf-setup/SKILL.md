@@ -56,10 +56,10 @@ Keep under 60 lines. Do NOT include what linters already enforce.
 
 ### Step 4: Confirm
 
-Present output and ask:
-- "Faltou alguma convenção importante?"
-- "Tem alguma proibição específica?"
+Present output and ask (in the user's preferred language):
+- If any important convention is missing
+- If there are any specific prohibitions
 
 ## Rules
 - Detect patterns from REAL codebase, never assume defaults
-- Communicate in Portuguese (pt-BR)
+- Always communicate in the user's preferred language

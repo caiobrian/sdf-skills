@@ -50,10 +50,11 @@ Follow CLAUDE.md conventions. No `any` types. No scope creep.
 Present: what changed, quick check results, any risks.
 
 If scope grows:
-> "Isso é mais complexo do que parecia. Sugiro escalar pro fluxo completo. Quer seguir com discovery?"
+> "This is more complex than it seemed. I suggest escalating to the full flow. Want to continue with discovery?" (in the user's preferred language)
 
 ## Rules
 - If scope grows, STOP and escalate
 - Respect CLAUDE.md and LessonsLearned.md
 - If mistake worth recording, suggest adding to LessonsLearned.md
 - Code in English
+- Always communicate in the user's preferred language

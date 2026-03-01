@@ -47,7 +47,7 @@ For each ID in requirements.md, verify it exists in the implemented code:
 Derive tests from REQUIREMENTS (not from code):
 - Every test MUST reference at least one ID (RF-xx, CA-xx, EC-xx)
 - Mandatory categories: happy path (CA-xx), edge cases (EC-xx), error states, loading states (if async), empty states (if renders data)
-- `describe` in English, test names in Portuguese
+- `describe` in English, test names in the user's preferred language
 - Use the test framework specified in CLAUDE.md
 
 ## Step C: Run Tests
@@ -71,7 +71,7 @@ Issues: [list]
 In main context, review the verification report.
 
 If ❌ Failed: indicate which tasks to reopen and spawn new build subagents.
-If ✅ or ⚠️: "Verificação completa. Quer documentar e fechar o ciclo?"
+If ✅ or ⚠️: "Verification complete. Want to document and close the cycle?" (in the user's preferred language)
 
 ## Rules
 - Tests without requirement references = noise — don't generate

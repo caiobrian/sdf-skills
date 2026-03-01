@@ -40,7 +40,7 @@ Small isolated fix?                         → Quick Track
 User explicitly says "pula pra X"?          → Go to X
 ```
 
-If ambiguous, ask: "Qual fase você quer? discovery / spec / build / verify / document / quick"
+If ambiguous, ask for clarification on which phase to run (e.g., "discovery / spec / build / verify / document / quick") using the user's preferred language.
 
 ## Subagent Pattern for Build and Verify
 
@@ -73,11 +73,13 @@ After each subagent completes, review its output in the main context and mark th
 ## Transition Between Phases
 
 After each phase completes, suggest the next:
-- Discovery done → "Problem statement pronto. Quer seguir pra spec?"
-- Spec done → "Spec aprovada. Quer começar o build?"
-- Build done → "Build completo. Quer validar?"
-- Verify done → "Testes passando. Quer documentar e fechar?"
-- Document done → "Ciclo SDF completo."
+- Discovery done → Prompt to move to spec (e.g., "Problem statement ready. Move to spec?")
+- Spec done → Prompt to move to build (e.g., "Spec approved. Start building?")
+- Build done → Prompt to move to verify (e.g., "Build complete. Validate?")
+- Verify done → Prompt to move to document (e.g., "Tests passing. Document and close?")
+- Document done → State cycle is complete (e.g., "SDF cycle complete.")
+
+*Note: Always communicate these transitions in the user's preferred language.*
 
 ## Rules
 - Read the specific phase file BEFORE acting
@@ -86,4 +88,4 @@ After each phase completes, suggest the next:
 - Document: runs in main context (interactive)
 - Quick Track: runs in main context (small enough)
 - If scope grows during Quick Track, escalate to full flow
-- Communicate in Portuguese (pt-BR)
+- Always communicate in the user's preferred language

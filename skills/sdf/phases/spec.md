@@ -41,13 +41,13 @@ Present and ask for approval before generating tasks.
 
 After plan.md, if the change is structural or high-risk, offer:
 
-> "Essa mudança é estrutural. Quer que eu valide o plan.md contra o codebase real antes de seguir?"
+> "This change is structural. Do you want me to validate plan.md against the actual codebase before proceeding?" (in the user's preferred language)
 
 If accepted:
 1. **Feasibility** — Types compatible with existing codebase?
 2. **Integration** — Touchpoints mapped? Backward compatibility?
 3. **Risks** — Conflicts, unmapped dependencies, performance?
-4. **Verdict** — Specific adjustments to plan.md or "Design validado."
+4. **Verdict** — Specific adjustments to plan.md or "Design validated."
 
 ### Artifact 3: tasks.md
 
@@ -60,4 +60,5 @@ Only after plan.md is approved. Read `templates/tasks.md` for structure.
 - Consult LessonsLearned.md before defining strategy
 - Respect CLAUDE.md constitution
 - Do NOT generate next artifact without approval of previous
-- Requirements/plan in Portuguese, types in English
+- Requirements/plan in the user's preferred language, types in English
+- Always communicate in the user's preferred language

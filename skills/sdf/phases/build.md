@@ -70,8 +70,8 @@ Mark `[x]` on the completed task in `specs/<feature>/tasks.md`.
 
 ### Step 4: Next task or transition
 
-If more tasks pending: "Task T-xx concluída. Próxima é T-yy — quer seguir?"
-If all done: "Build completo. Quer validar?"
+If more tasks pending: "Task T-xx complete. Next is T-yy — want to proceed?" (in the user's preferred language)
+If all done: "Build complete. Want to validate?" (in the user's preferred language)
 
 ## Rules
 - 1 task per subagent — never batch multiple tasks

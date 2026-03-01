@@ -11,7 +11,7 @@ Understand the problem before any specification or code.
 
 ### Step 2: Restate
 
-Rewrite the problem. Ask: "É isso mesmo?"
+Rewrite the problem. Ask to confirm if it is correct (e.g., "Is that correct?") in the user's preferred language.
 
 ### Step 3: Fill gaps
 
@@ -41,7 +41,7 @@ If sufficient context was already provided, skip to Step 4.
 
 ### Step 5: Transition
 
-"Problem statement pronto. Quer seguir pra spec?"
+Ask to transition to spec (e.g., "Problem statement ready. Move to spec?") in the user's preferred language.
 
 For small, well-defined problems, suggest quick track instead.
 

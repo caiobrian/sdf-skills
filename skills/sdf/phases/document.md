@@ -61,9 +61,10 @@ Close the SDF cycle. Runs in main context (interactive).
 
 ### Step 4: Confirm
 
-"Ciclo SDF completo. Artefatos atualizados. Algo mais antes de fechar?"
+State cycle is complete (e.g., "SDF cycle complete. Artifacts updated. Anything else before closing?") in the user's preferred language.
 
 ## Rules
 - Only document decisions that actually happened
-- If no deviations, say "Sem desvios"
+- If no deviations, state "No deviations" (in the user's preferred language)
 - Always suggest additions to LessonsLearned.md if errors occurred
+- Always communicate in the user's preferred language
