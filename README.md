@@ -1,73 +1,70 @@
 # SDF — Spec-Driven Flow
 
-Framework de desenvolvimento estruturado para Claude Code. Organiza o trabalho em fases: **Discovery → Spec → Build → Verify → Document**.
+A structured development framework for Claude Code. Organizes AI-assisted development into phases: **Discovery → Spec → Build → Verify → Document**.
 
-## Instalação
+Prevents context rot by running execution phases (Build/Verify) as subagents with fresh context. Interactive phases (Discovery/Spec/Document) run in main context for human approval at each step.
 
-### Via `npx skills` (recomendado)
+## Installation
+
+### Via `npx skills` (recommended)
 
 ```bash
-# Instalar globalmente (disponível em todos os projetos)
+# Install globally (available across all projects)
 npx skills add caiobrian/sdf-skills --global --agent claude-code
 
-# Ou instalar apenas no projeto atual
+# Or install in current project only
 npx skills add caiobrian/sdf-skills --agent claude-code
 ```
 
 ### Manual
 
 ```bash
-# Global
 git clone https://github.com/caiobrian/sdf-skills.git /tmp/sdf-skills
 cp -r /tmp/sdf-skills/skills/sdf ~/.claude/skills/sdf
 cp -r /tmp/sdf-skills/skills/sdf-setup ~/.claude/skills/sdf-setup
 rm -rf /tmp/sdf-skills
-
-# Projeto local
-git clone https://github.com/caiobrian/sdf-skills.git /tmp/sdf-skills
-cp -r /tmp/sdf-skills/skills/sdf .claude/skills/sdf
-cp -r /tmp/sdf-skills/skills/sdf-setup .claude/skills/sdf-setup
-rm -rf /tmp/sdf-skills
 ```
 
-## Skills incluídos
+## Skills
 
 ### `sdf-setup`
-Inicializa a constituição do projeto (`.claude/CLAUDE.md` e `LessonsLearned.md`). Roda uma vez por projeto.
 
-**Triggers:** `setup sdf`, `iniciar projeto`, `configurar sdf`, `/sdf-setup`
+One-time project initialization. Analyzes your codebase and generates a project constitution (`.claude/CLAUDE.md`) and `LessonsLearned.md`.
+
+**Triggers:** `setup sdf`, `/sdf-setup`
 
 ### `sdf`
-Workflow principal. Router inteligente que detecta a fase e executa:
 
-| Fase | Quando | Contexto |
-|------|--------|----------|
-| **Quick Track** | Bug fix, UI tweak, config | Main context |
-| **Discovery** | Problema novo, sem spec | Main context |
-| **Spec** | Problem statement existe | Main context |
-| **Build** | Spec aprovada, tasks pendentes | Subagent por task |
-| **Verify** | Code pronto, precisa validar | Subagent |
-| **Document** | Tudo pronto, fechar ciclo | Main context |
+Main workflow. Smart router that detects the current phase and acts accordingly:
 
-**Triggers:** `sdf`, `nova feature`, `novo problema`, `gerar spec`, `implementar`, `validar`, `documentar`, `fix rápido`, `/sdf`
+| Phase | When | Execution |
+|-------|------|-----------|
+| **Quick Track** | Bug fix, UI tweak, config change | Main context |
+| **Discovery** | New problem, no spec yet | Main context |
+| **Spec** | Problem defined, needs specification | Main context |
+| **Build** | Spec approved, tasks pending | Subagent per task |
+| **Verify** | Code done, needs validation | Subagent |
+| **Document** | Everything done, close cycle | Main context |
 
-## Fluxo completo
+**Triggers:** `sdf`, `/sdf`, or any development request (new feature, bug, refactor, implement, validate, document)
+
+## Full Flow
 
 ```
-/sdf-setup          → Constituição do projeto (uma vez)
+/sdf-setup          → Project constitution (once)
   ↓
-Discovery           → Entender o problema
+Discovery           → Understand the problem
   ↓
 Spec                → requirements.md → plan.md → tasks.md
   ↓
-Build               → Implementar (1 subagent por task)
+Build               → Implement (1 subagent per task)
   ↓
-Verify              → Testar contra spec (subagent)
+Verify              → Test against spec (subagent)
   ↓
-Document            → Fechar ciclo + PR description
+Document            → Close cycle + PR description
 ```
 
-## Estrutura de artefatos gerados
+## Generated Artifacts
 
 ```
 specs/
@@ -77,13 +74,14 @@ specs/
     └── tasks.md           # T-xx ordered by dependency
 ```
 
-## Princípios
+## Key Principles
 
-- **Spec é contrato** — Build e Verify seguem a spec, não inventam
-- **Subagents** — Build e Verify rodam em contexto fresco (evita context rot)
-- **Progressive disclosure** — SKILL.md é router, detalhes nas fases
-- **Quick Track** — Atalho para tarefas pequenas, escala se crescer
+- **Spec is the contract** — Build and Verify follow the spec, no improvisation
+- **Subagents prevent context rot** — each task gets fresh 200k context
+- **Progressive disclosure** — SKILL.md routes, phase files have the details
+- **Quick Track** — shortcut for small tasks, auto-escalates if scope grows
+- **Traceability** — every test references a requirement ID (RF-xx, CA-xx, EC-xx)
 
-## Licença
+## License
 
 MIT
