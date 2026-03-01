@@ -10,10 +10,10 @@ Prevents context rot by running execution phases (Build/Verify) as subagents wit
 
 ```bash
 # Install globally (available across all projects)
-npx skills add caiobrian/sdf-skills --global --agent claude-code
+npx skills add caiobrian/sdf-skills --global --agent claude-code --all -y
 
 # Or install in current project only
-npx skills add caiobrian/sdf-skills --agent claude-code
+npx skills add caiobrian/sdf-skills --agent claude-code --all -y
 ```
 
 ### Manual
