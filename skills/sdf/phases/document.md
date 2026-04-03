@@ -67,4 +67,5 @@ State cycle is complete (e.g., "SDF cycle complete. Artifacts updated. Anything 
 - Only document decisions that actually happened
 - If no deviations, state "No deviations" (in the user's preferred language)
 - Always suggest additions to LessonsLearned.md if errors occurred
+- **LessonsLearned.md size cap**: max 50 entries. If adding a new entry would exceed 50, remove the oldest entry first. This keeps the file's token cost constant across the project's lifetime.
 - Always communicate in the user's preferred language

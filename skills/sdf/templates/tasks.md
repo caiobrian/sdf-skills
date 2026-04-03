@@ -6,6 +6,7 @@
 ## T-01: [descriptive name]
 - **Wave:** 1
 - **Type:** component | hook | util | service | test | config
+- **Complexity:** low | medium | high
 - **Requirements:** RF-01, RNF-02
 - **Input:** [precondition]
 - **Output:** [deliverable]
@@ -16,6 +17,7 @@
 ## T-02: [descriptive name]
 - **Wave:** 1
 - **Type:** component | hook | util | service | test | config
+- **Complexity:** low | medium | high
 - **Requirements:** RF-02, EC-01
 - **Input:** [precondition]
 - **Output:** [deliverable]
@@ -26,6 +28,7 @@
 ## T-03: [descriptive name]
 - **Wave:** 2
 - **Type:** component | hook | util | service | test | config
+- **Complexity:** low | medium | high
 - **Requirements:** RF-03
 - **Input:** [depends on T-01, T-02]
 - **Output:** [deliverable]

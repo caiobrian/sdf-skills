@@ -70,6 +70,7 @@ Keep under 80 lines. Do NOT include what linters already enforce.
 ```markdown
 # Lessons Learned
 <!-- Format: LL-XXX: Title | Context | Rule | Date -->
+<!-- Max 50 entries. Remove oldest when full to keep token cost constant. -->
 ```
 
 ### Step 4: Confirm

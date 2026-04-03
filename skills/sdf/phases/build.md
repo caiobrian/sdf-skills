@@ -41,6 +41,10 @@ Read these files first:
 Task details:
 - Requirements: [RF-xx, RNF-xx, EC-xx from the task]
 - Affected files: [from the task]
+- Complexity: [low | medium | high — read from tasks.md]
+
+Model hint: if Complexity is 'low' (scaffolding, renaming, config), prefer a faster/cheaper
+model. If 'medium' or 'high', use the default capable model.
 
 Implementation rules:
 - Use EXACTLY the types from plan.md
@@ -61,11 +65,15 @@ After implementation, complete this self-review:
 - [ ] LessonsLearned.md respected
 - [ ] CLAUDE.md conventions followed
 
-Report back:
-1. Files created/modified
-2. Self-review result
-3. Trade-offs or decisions made
-4. Any risks or fragile points
+Report back using this compact JSON (keep it short — main context accumulates all reports):
+{
+  "task_id": "T-XX",
+  "files": ["path/to/file"],
+  "requirements_covered": ["RF-xx", "EC-xx"],
+  "self_review_pass": true,
+  "issues": []
+}
+If self_review_pass is false or issues is non-empty, add a brief "notes" field explaining why.
 ```
 
 ### Step 3: Review wave output
