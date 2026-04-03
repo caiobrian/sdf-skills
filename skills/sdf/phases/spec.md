@@ -29,11 +29,40 @@ Read `templates/requirements.md` for structure. Generate with ALL traceable IDs 
 
 Present and ask for review before proceeding.
 
+### Optional: Technical Research
+
+After requirements.md is approved, if the implementation involves non-trivial technical decisions (library selection, architectural approach, unfamiliar domain), offer:
+
+> "Before planning, do you want me to research the technical options?" (in the user's preferred language)
+
+If accepted, spawn a **research subagent** via Task():
+
+```
+Research task for <feature-name>:
+
+Read specs/<feature>/requirements.md for context.
+
+Investigate and report on:
+1. Library/tool options that fit the requirements — for each: pros, cons, maintenance status, bundle size (if frontend), community adoption
+2. Known pitfalls or gotchas for the chosen approach
+3. Compatibility with the stack in .claude/CLAUDE.md
+4. Recommended approach with justification
+
+Format each decision as:
+DEC-01: [topic] — Recommendation: [option] — Reason: [1-2 sentences] — Alternatives considered: [options]
+
+Keep it concise. This feeds directly into plan.md.
+```
+
+Review the research output in the main context and document each decision as **DEC-xx** (Decision IDs). plan.md must reference DEC-xx for any non-obvious technical choices.
+
 ### Artifact 2: plan.md
 
-Only after requirements.md is approved. Read `templates/plan.md` for structure.
+Only after requirements.md is approved (and research complete, if run). Read `templates/plan.md` for structure.
 
 **No executable code — only types/interfaces.**
+
+If research was performed, include a `## Technical Decisions` section at the top of plan.md listing each DEC-xx with its recommendation.
 
 Present and ask for approval before generating tasks.
 

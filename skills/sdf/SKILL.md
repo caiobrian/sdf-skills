@@ -29,6 +29,9 @@ Detect the current situation and route:
 **6. Document** — Everything done, needs closure and PR description:
 → Read `phases/document.md` and follow it.
 
+**7. Milestone** — A set of features is complete and ready to close as a version:
+→ Read `phases/milestone.md` and follow it.
+
 ## How to detect phase
 
 ```
@@ -37,6 +40,7 @@ Spec exists but tasks not started?          → Build
 Tasks done but no tests?                    → Verify
 Tests pass, needs PR/docs?                  → Document
 Small isolated fix?                         → Quick Track
+Multiple features done, ready for release?  → Milestone
 User explicitly says "pula pra X"?          → Go to X
 ```
 
@@ -78,7 +82,8 @@ After each phase completes, suggest the next **and include a token checkpoint**:
 - Spec done → Prompt to move to build (e.g., "Spec approved. Start building?")
 - Build done → Prompt to move to verify (e.g., "Build complete. Validate?")
 - Verify done → Prompt to move to document (e.g., "Tests passing. Document and close?")
-- Document done → State cycle is complete (e.g., "SDF cycle complete.")
+- Document done → State cycle is complete (e.g., "SDF cycle complete. Ready to close a milestone?")
+- Milestone done → State milestone is closed (e.g., "Milestone closed. Specs archived, CHANGELOG updated.")
 
 **Token checkpoint**: Before each transition, check context usage with `/context`. If usage is above 60%, warn the user: "Context is at X% — consider starting a new session for the next phase to avoid compaction mid-cycle." Never start a new phase silently when the context is critical (>80%).
 

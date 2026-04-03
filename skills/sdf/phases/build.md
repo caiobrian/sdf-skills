@@ -76,13 +76,20 @@ Report back using this compact JSON (keep it short — main context accumulates 
 If self_review_pass is false or issues is non-empty, add a brief "notes" field explaining why.
 ```
 
-### Step 3: Review wave output
+### Step 3: Review wave output and commit
 
 After **all subagents in the wave** complete, review each output in the main context:
 - Does it match the spec?
 - Any conflicts between tasks that ran in parallel?
 
-Resolve conflicts before proceeding. Mark `[x]` on completed tasks in `specs/<feature>/tasks.md`.
+Resolve conflicts before proceeding. Then, for each completed task, mark `[x]` in `specs/<feature>/tasks.md` and create an atomic git commit:
+
+```
+git add <files changed by T-XX>
+git commit -m "feat(T-XX): <short description from tasks.md>"
+```
+
+Follow the commit format defined in `.claude/CLAUDE.md`. One commit per task — this preserves a clean, bisectable history.
 
 ### Step 4: Next wave or transition
 
