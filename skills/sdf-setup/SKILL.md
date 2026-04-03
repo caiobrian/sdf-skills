@@ -25,7 +25,7 @@ If the project is empty, ask for preferences.
 
 ### Step 2: Generate `.claude/CLAUDE.md`
 
-Keep under 80 lines. Do NOT include what linters already enforce.
+Keep under 100 lines. Do NOT include what linters already enforce.
 
 ```markdown
 # Project Constitution
@@ -53,6 +53,9 @@ Keep under 80 lines. Do NOT include what linters already enforce.
 ## Prohibited Actions
 - Never install new dependencies without explicit approval
 - Never silence errors or use `any` types
+- Never expose secrets or credentials in logs, comments, or output
+- Never use path traversal patterns (`../`) in file operations
+- Never commit with --no-verify
 
 ## Folder Structure
 - [mapped from project]
@@ -63,9 +66,102 @@ Keep under 80 lines. Do NOT include what linters already enforce.
 - Test (watch): [cmd]
 - Lint: [cmd]
 - Coverage: [cmd]
+
+## SDF Config
+- research_phase: enabled
+- milestone_tracking: disabled
+- hooks: enabled
 ```
 
-### Step 3: Generate `LessonsLearned.md`
+### Step 3: Generate `.claude/hooks-guide.md`
+
+Generate a reference file with ready-to-use Claude Code hook configurations for this project.
+
+Detect the project's formatter/linter from Step 1 and fill in the actual commands:
+
+```markdown
+# Claude Code Hooks — Project Setup Guide
+
+Configure hooks in `.claude/settings.json` (project) or `~/.claude/settings.json` (global).
+
+## Recommended Hooks for This Project
+
+### Auto-format on file write
+Runs the formatter automatically after Claude writes or edits a file.
+
+\`\`\`json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[detected format command, e.g.: npx prettier --write $CLAUDE_TOOL_INPUT_PATH]"
+          }
+        ]
+      }
+    ]
+  }
+}
+\`\`\`
+
+### Guard against dangerous Bash commands
+Blocks destructive commands from running without explicit confirmation.
+
+\`\`\`json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$CLAUDE_TOOL_INPUT_COMMAND\" | grep -qE '(rm -rf|git push --force|git reset --hard|DROP TABLE|truncate)' && echo 'BLOCKED: destructive command requires manual confirmation' && exit 1 || exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
+\`\`\`
+
+### Reinforce context after compaction
+Re-reads CLAUDE.md after Claude Code compacts the context, so conventions are never lost.
+
+\`\`\`json
+{
+  "hooks": {
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat .claude/CLAUDE.md"
+          }
+        ]
+      }
+    ]
+  }
+}
+\`\`\`
+
+## How to Apply
+
+1. Open or create `.claude/settings.json`
+2. Merge the hook blocks above into the `"hooks"` key
+3. Adjust commands to match your project's actual tooling
+4. Test: run Claude Code and trigger a file write — formatter should run automatically
+
+## Reference
+
+Full hook event list: PreToolUse, PostToolUse, PreCompact, PostCompact, Notification, Stop, SubagentStop
+Full docs: https://docs.anthropic.com/en/docs/claude-code/hooks
+```
+
+### Step 4: Generate `LessonsLearned.md`
 
 ```markdown
 # Lessons Learned
@@ -73,12 +169,14 @@ Keep under 80 lines. Do NOT include what linters already enforce.
 <!-- Max 50 entries. Remove oldest when full to keep token cost constant. -->
 ```
 
-### Step 4: Confirm
+### Step 5: Confirm
 
 Present output and ask (in the user's preferred language):
 - If any important convention is missing
 - If there are any specific prohibitions
 - If the testing section accurately reflects the project's test strategy
+- If the SDF Config toggles match their preferred workflow
+- If hooks are relevant for this project (or if they already have hooks configured)
 
 ## Rules
 - Detect patterns from REAL codebase, never assume defaults
