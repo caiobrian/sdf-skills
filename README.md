@@ -51,6 +51,7 @@ npx skills remove --global sdf sdf-setup
 One-time project initialization. Analyzes your codebase and generates:
 
 - **`.claude/CLAUDE.md`** — project constitution: stack, conventions, prohibited patterns
+- **`.claude/hooks-guide.md`** — ready-to-use Claude Code hook configurations (auto-format, command guards, post-compact context reload)
 - **`LessonsLearned.md`** — running log of mistakes to avoid in future tasks
 
 **Triggers:** `/sdf-setup`, `setup sdf`
@@ -67,6 +68,7 @@ The main workflow. Smart router that detects the current phase and acts accordin
 | **Build** | Spec approved, tasks pending | Subagent per task |
 | **Verify** | Code done, needs validation | Subagent |
 | **Document** | Everything done, close cycle | Main context |
+| **Milestone** | Set of features complete, ready to release | Main context |
 
 **Triggers:** `/sdf`, `sdf`, or any development request (feature, bug, refactor, implement, validate, document)
 
@@ -93,14 +95,16 @@ See [`docs/examples/dark-mode/`](docs/examples/dark-mode/) for a complete exampl
   ↓
 Discovery               → Problem statement with success criteria
   ↓ (approve)
-Spec                    → requirements.md → plan.md → tasks.md
+Spec                    → requirements.md → [research subagent?] → plan.md → tasks.md
   ↓ (approve)
-Build                   → Wave 1: T-01, T-02 (parallel subagents)
+Build                   → Wave 1: T-01, T-02 (parallel subagents, 1 commit per task)
                           Wave 2: T-03       (depends on Wave 1)
   ↓
 Verify                  → Subagent validates against spec IDs
   ↓
 Document                → PR description + LessonsLearned.md update
+  ↓ (when ready to release)
+Milestone               → CHANGELOG entry + archive specs + suggest git tag
 ```
 
 ## Quick Track
@@ -117,8 +121,10 @@ If scope grows, SDF auto-escalates to the full flow.
 
 - **Spec is the contract** — Build and Verify follow the spec, no improvisation
 - **Subagents prevent context rot** — each task gets a fresh 200k context window
+- **Atomic commits** — one commit per task in Build, keeping history clean and bisectable
 - **Progressive disclosure** — routing logic in SKILL.md, details in phase files
 - **Traceability** — every test references a requirement ID (RF-xx, CA-xx, EC-xx)
+- **Token checkpoints** — SDF warns when context exceeds 60% before starting a new phase
 - **Language-adaptive** — SDF communicates in whatever language you use
 
 ## Documentation
