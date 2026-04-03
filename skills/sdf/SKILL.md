@@ -64,20 +64,23 @@ Rules:
 - Follow CLAUDE.md conventions
 - No `any` types, no silenced errors, no scope creep
 - Code in English
+- Model hint: if the task Complexity is 'low', prefer a faster/cheaper model
 - After implementation, run self-review checklist (in phases/build.md)
-- Report: code created, self-review result, trade-offs, risks
+- Report back using the compact JSON schema defined in phases/build.md
 ```
 
 After each subagent completes, review its output in the main context and mark the task `[x]` in tasks.md.
 
 ## Transition Between Phases
 
-After each phase completes, suggest the next:
+After each phase completes, suggest the next **and include a token checkpoint**:
 - Discovery done → Prompt to move to spec (e.g., "Problem statement ready. Move to spec?")
 - Spec done → Prompt to move to build (e.g., "Spec approved. Start building?")
 - Build done → Prompt to move to verify (e.g., "Build complete. Validate?")
 - Verify done → Prompt to move to document (e.g., "Tests passing. Document and close?")
 - Document done → State cycle is complete (e.g., "SDF cycle complete.")
+
+**Token checkpoint**: Before each transition, check context usage with `/context`. If usage is above 60%, warn the user: "Context is at X% — consider starting a new session for the next phase to avoid compaction mid-cycle." Never start a new phase silently when the context is critical (>80%).
 
 *Note: Always communicate these transitions in the user's preferred language.*
 
