@@ -35,7 +35,7 @@ For each ID in requirements.md, verify it exists in the implemented code:
 - EC-01: ✅/❌ [how handled]
 
 ### Acceptance Criteria
-- CA-01: ✅/❌
+- CA-01: ✅/❌ [measured value vs threshold]
 
 ### Types
 - [ ] Interfaces from plan.md implemented correctly
@@ -50,12 +50,21 @@ Derive tests from REQUIREMENTS (not from code):
 - `describe` in English, test names in the user's preferred language
 - Use the test framework specified in CLAUDE.md
 
-## Step C: Run Tests
+## Step C: Run and Diagnose
 
-Execute the test suite. If tests fail:
-- Identify if it's a test issue or implementation issue
-- Fix test issues
-- Flag implementation issues
+Execute the test suite. For each failure, follow this cycle:
+
+1. **Diagnose** — Is the failure caused by:
+   - A test issue (wrong assertion, bad mock, setup error)?
+   - An implementation issue (logic bug, missing edge case, type mismatch)?
+
+2. **Fix** — Apply the fix:
+   - Test issue → fix the test directly
+   - Implementation issue → flag it; do NOT fix implementation inside the verify subagent
+
+3. **Re-run** — Execute again after fix.
+
+4. **Escalate** — If the same test fails after one fix attempt, stop and include it in the report as a confirmed implementation gap.
 
 ## Step D: Report
 
@@ -63,17 +72,21 @@ Status: ✅ Approved | ⚠️ With caveats | ❌ Failed
 Coverage: X/Y requirements covered
 Tests generated: N
 Tests passing: N/N
-Issues: [list]
+
+Issues (if any):
+- [ID] [description] — [test issue fixed | implementation gap requiring reopen of T-xx]
 ```
 
 ### Step 2: Review report
 
 In main context, review the verification report.
 
-If ❌ Failed: indicate which tasks to reopen and spawn new build subagents.
+If ❌ Failed: reopen the affected tasks and spawn new build subagents for each implementation gap.
 If ✅ or ⚠️: "Verification complete. Want to document and close the cycle?" (in the user's preferred language)
 
 ## Rules
+
 - Tests without requirement references = noise — don't generate
-- If implementation diverges from spec, FLAG clearly
+- If implementation diverges from spec, FLAG clearly — do not silently adapt the test to match wrong behavior
+- Never fix implementation issues inside the verify subagent — reopen the build phase for that
 - No trivial tests without context
