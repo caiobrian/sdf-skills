@@ -1,6 +1,6 @@
 # Phase: Build
 
-Implement tasks from the spec. **Each task runs as a subagent with fresh context.**
+Implement tasks from the spec. **Each task runs as a subagent with fresh context.** Independent tasks in the same wave run in parallel.
 
 ## Required Files
 
@@ -12,13 +12,21 @@ Implement tasks from the spec. **Each task runs as a subagent with fresh context
 
 ## Process
 
-### Step 1: List pending tasks
+### Step 1: Map tasks and waves
 
-Read `specs/<feature>/tasks.md` and show which tasks are pending. Ask which to implement next (or suggest the next by dependency order).
+Read `specs/<feature>/tasks.md`. Group tasks by wave — tasks with no dependency on each other belong to the same wave. Show the execution plan before starting:
 
-### Step 2: Spawn subagent for the task
+```
+Wave 1 (parallel): T-01, T-02
+Wave 2 (parallel): T-03, T-04  ← depends on Wave 1
+Wave 3:            T-05         ← depends on T-04 specifically
+```
 
-Use Task() to spawn a fresh context for each task. Provide this prompt:
+If tasks.md has no explicit Wave field, infer waves from the dependency order. Ask to confirm before proceeding.
+
+### Step 2: Execute wave
+
+Spawn **one subagent per task in the current wave simultaneously** using Task(). Provide this prompt per task:
 
 ```
 Implement task T-[XX] for the <feature-name> feature.
@@ -60,21 +68,24 @@ Report back:
 4. Any risks or fragile points
 ```
 
-### Step 3: Review subagent output
+### Step 3: Review wave output
 
-In the main context, review what the subagent produced:
+After **all subagents in the wave** complete, review each output in the main context:
 - Does it match the spec?
-- Any concerns?
+- Any conflicts between tasks that ran in parallel?
 
-Mark `[x]` on the completed task in `specs/<feature>/tasks.md`.
+Resolve conflicts before proceeding. Mark `[x]` on completed tasks in `specs/<feature>/tasks.md`.
 
-### Step 4: Next task or transition
+### Step 4: Next wave or transition
 
-If more tasks pending: "Task T-xx complete. Next is T-yy — want to proceed?" (in the user's preferred language)
-If all done: "Build complete. Want to validate?" (in the user's preferred language)
+If more waves pending: "Wave N complete. Next: T-xx, T-yy — proceed?" (in the user's preferred language)
+If all waves done: "Build complete. Want to validate?" (in the user's preferred language)
 
 ## Rules
-- 1 task per subagent — never batch multiple tasks
-- If spec is ambiguous, ASK the user before spawning the subagent
-- If subagent output has issues, fix in a new subagent (don't accumulate in main context)
+
+- Tasks in the same wave → spawn simultaneously in parallel
+- Tasks in different waves → wait for previous wave to complete before starting next
+- 1 task per subagent — never batch multiple tasks in one subagent
+- If spec is ambiguous, ASK the user before spawning subagents
+- If a subagent output has issues, fix in a new subagent (never accumulate fixes in main context)
 - If a mistake is worth recording, suggest adding to LessonsLearned.md
